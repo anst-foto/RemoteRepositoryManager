@@ -47,5 +47,4 @@ public class GitHubManager
 
         await _client.SendAsync(request);
     }
-
 }
