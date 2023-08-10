@@ -1,4 +1,6 @@
-﻿# RemoteRepositoryManager
+﻿[![CodeFactor](https://www.codefactor.io/repository/github/anst-foto/remoterepositorymanager/badge)](https://www.codefactor.io/repository/github/anst-foto/remoterepositorymanager)
+
+# RemoteRepositoryManager
 
 Библиотека для работы с GitHub API, GitFlic API
 
