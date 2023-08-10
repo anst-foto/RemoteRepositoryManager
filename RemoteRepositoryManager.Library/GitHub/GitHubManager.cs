@@ -22,7 +22,7 @@ using System.Net.Http.Json;
 
 namespace RemoteRepositoryManager.Library.GitHub;
 
-public class GitHubManager
+public sealed class GitHubManager : IDisposable
 {
     private readonly string _token;
     private readonly string _user;
@@ -65,5 +65,10 @@ public class GitHubManager
         request.Headers.Add("X-GitHub-Api-Version", "2022-11-28");
 
         await _client.SendAsync(request);
+    }
+
+    public void Dispose()
+    {
+        _client.Dispose();
     }
 }
