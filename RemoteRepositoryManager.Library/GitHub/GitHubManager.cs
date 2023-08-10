@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 
-namespace RemoteRepositoryManager.Lib.GitHub;
+namespace RemoteRepositoryManager.Library.GitHub;
 
 public class GitHubManager
 {
@@ -19,7 +19,7 @@ public class GitHubManager
         _client = new HttpClient();
     }
 
-    public async Task<IEnumerable<GhRepository>?> GetAllRepositoriesAsync()
+    public async Task<IEnumerable<GitHubRepository>?> GetAllRepositoriesAsync()
     {
         var url = $"{BaseUrl}/users/{_user}/repos";
         using var request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -33,7 +33,7 @@ public class GitHubManager
             return null;
         }
 
-        return await response.Content.ReadFromJsonAsync<IEnumerable<GhRepository>>();
+        return await response.Content.ReadFromJsonAsync<IEnumerable<GitHubRepository>>();
     }
 
     public async Task DeleteRepositoryAsync(string nameRepository)

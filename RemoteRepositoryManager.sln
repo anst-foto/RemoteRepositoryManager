@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteRepositoryManager.Lib", "RemoteRepositoryManager.Lib\RemoteRepositoryManager.Lib.csproj", "{1DEE4E9B-81FA-4178-891F-38B9BA0E5003}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteRepositoryManager.Library", "RemoteRepositoryManager.Library\RemoteRepositoryManager.Library.csproj", "{1DEE4E9B-81FA-4178-891F-38B9BA0E5003}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
