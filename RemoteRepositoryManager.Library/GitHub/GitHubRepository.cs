@@ -21,7 +21,7 @@ using System.Text.Json.Serialization;
 
 namespace RemoteRepositoryManager.Library.GitHub;
 
-public class GitHubRepository
+public class GitHubRepository : IRepository
 {
     [JsonPropertyName("id")] public int Id { get; set; }
 

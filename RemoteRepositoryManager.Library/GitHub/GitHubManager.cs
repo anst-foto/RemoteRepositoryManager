@@ -22,31 +22,28 @@ using System.Net.Http.Json;
 
 namespace RemoteRepositoryManager.Library.GitHub;
 
-public sealed class GitHubManager : IDisposable
+public sealed class GitHubManager : AbstractManager, IManager
 {
-    private readonly string _token;
-    private readonly string _user;
+    private const string BASE_URL = "https://api.github.com";
 
-    private const string BaseUrl = "https://api.github.com";
-    private readonly HttpClient _client;
-
-    public GitHubManager(string token, string user)
+    public GitHubManager(string token, string user) : base(token, user, BASE_URL)
     {
-        _token = token;
-        _user = user;
-
-        _client = new HttpClient();
     }
 
-    public async Task<IEnumerable<GitHubRepository>?> GetAllRepositoriesAsync()
+    private async Task<HttpResponseMessage> SendRequestAsync(HttpMethod httpMethod, string url)
     {
-        var url = $"{BaseUrl}/users/{_user}/repos";
-        using var request = new HttpRequestMessage(HttpMethod.Get, url);
-        request.Headers.Add("User-Agent", _user);
+        using var request = new HttpRequestMessage(httpMethod, url);
+        request.Headers.Add("User-Agent", User);
         request.Headers.Add("Accept", "application/vnd.github+json");
-        request.Headers.Add("Authorization", $"Bearer {_token}");
+        request.Headers.Add("Authorization", $"Bearer {Token}");
         request.Headers.Add("X-GitHub-Api-Version", "2022-11-28");
-        using var response = await _client.SendAsync(request);
+        return await Client.SendAsync(request);
+    }
+
+    public async Task<IEnumerable<IRepository>?> GetAllRepositoriesAsync()
+    {
+        var url = $"{BaseUrl}/users/{User}/repos";
+        using var response = await SendRequestAsync(HttpMethod.Get, url);
         if (response.StatusCode is HttpStatusCode.BadRequest or HttpStatusCode.NotFound)
         {
             return null;
@@ -57,18 +54,7 @@ public sealed class GitHubManager : IDisposable
 
     public async Task DeleteRepositoryAsync(string nameRepository)
     {
-        var url = $"{BaseUrl}/repos/{_user}/{nameRepository}";
-        using var request = new HttpRequestMessage(HttpMethod.Delete, url);
-        request.Headers.Add("User-Agent", _user);
-        request.Headers.Add("Accept", "application/vnd.github+json");
-        request.Headers.Add("Authorization", $"Bearer {_token}");
-        request.Headers.Add("X-GitHub-Api-Version", "2022-11-28");
-
-        await _client.SendAsync(request);
-    }
-
-    public void Dispose()
-    {
-        _client.Dispose();
+        var url = $"{BaseUrl}/repos/{User}/{nameRepository}";
+        await SendRequestAsync(HttpMethod.Delete, url);
     }
 }
